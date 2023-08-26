@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Controle da Chuva</title>
+    <style>
+        body {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+        }
+        .title {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          text-align: center;
+          font-size: 28px;
+          margin: 20px 0;
+        }
+        .container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          margin-top: calc(28px + 40px);
+        }
+        button {
+          background-color: black;
+          color: white;
+          font-size: 40px;
+          padding: 19px 92px;
+          border-radius: 20px;
+          border: 3px solid white;
+          box-sizing: border-box;
+          cursor: pointer;
+          transform: translate(0%, -141%);
+        }
+        button:hover {
+          background-color: #808080;
+        }
+        @media screen and (max-width: 1200px) {
+          button {
+            font-size: 114px;
+            padding: 28px 160px;
+            border-radius: 47px;
+            border: 5px solid white;
+          }
+
+          .title {
+            position: fixed;
+            top: 69px;
+            left: 0px;
+            right: 0;
+            text-align: center;
+            font-size: 72px;
+            margin: 26px 0;
+            text-decoration-line: underline;
+        }
+
+
+
+
+        }
+      </style>
+    <script>
+      function updateRelayButton() {
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.onreadystatechange = function() {
+          if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            if (httpRequest.status === 200) {
+              var button = document.getElementById("relayButton");
+              if (httpRequest.responseText === "on") {
+                button.innerHTML = "Desligar";
+              } else if (httpRequest.responseText === "off") {
+                button.innerHTML = "Ligar";
+              }
+            } else {
+              console.log("Erro ao atualizar o botão do relé");
+            }
+          }
+        };
+        httpRequest.open("GET", "/relaystate", true);
+        httpRequest.send();
+      }
+      setInterval(updateRelayButton, 1000);
+    </script>
+  </head>
+  <body onload="updateRelayButton()">
+    <h1 class="title">CONTROLE DE CHUVA</h1>
+    <div class="container">
+      <button id="relayButton" onclick="toggleRelay()"></button>
+    </div>
+    <script>
+      function toggleRelay() {
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.onreadystatechange = function() {
+          if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            if (httpRequest.status === 200) {
+              var button = document.getElementById("relayButton");
+              if (httpRequest.responseText === "on") {
+                button.innerHTML = "Desligar";
+              } else if (httpRequest.responseText === "off") {
+                button.innerHTML = "Ligar";
+              }
+            } else {
+              console.log("Erro ao acionar o relé");
+            }
+          }
+        };
+        httpRequest.open("POST", "/relay", true);
+        httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        httpRequest.send("toggle");
+      }
+    </script>
+  </body>
+</html>
