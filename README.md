@@ -2,7 +2,6 @@
 Projeto de Simulação de Chuva em Casa de Taipa com Controle por Celular
 
 
-Certamente, aqui está uma descrição mais aprimorada:
 
 Projeto de Simulação de Chuva em Casa de Taipa com Controle por Celular
 
